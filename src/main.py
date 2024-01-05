@@ -4,6 +4,10 @@ conn = sqlite3.connect('./src/data/database.sqlite3')
 cursor = conn.cursor()
 
 
+def line(length):
+    print('-' * length)
+
+
 def create_database():
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS tasks
@@ -22,11 +26,33 @@ def get_tasks():
     return tasks
 
 
+def update_task_header():
+    tasks = cursor.fetchall()
+
+    for task in tasks:
+        print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
+
+    line(50)
+
+    update_task_id = int(
+        input("Enter the ID of the task you want to update: "))
+
+    update_task = input("Enter the new task: ")
+
+    cursor.execute(
+        "UPDATE tasks SET task = ? WHERE id = ?", (update_task, update_task_id)
+    )
+
+    conn.commit()
+
+
 def update_task_status():
     tasks = cursor.fetchall()
 
     for task in tasks:
         print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
+
+    line(50)
 
     update_task_id = int(
         input("Enter the ID of the task you want to update: "))
@@ -35,6 +61,8 @@ def update_task_status():
 
     for i, option in enumerate(status_options):
         print(f"{i+1}. {option}")
+
+    line(50)
 
     status_index = int(input("Enter the index of the status: ")) - 1
 
@@ -60,33 +88,48 @@ def clear_database():
 
 def main_menu():
     while True:
+        line(50)
         print("Main menu:")
         print("1. View tasks")
         print("2. Add task")
-        print("3. Update task status")
-        print("4. Delete task")
-        print("5. Clear database")
-        print("6. Exit")
+        print("3. Update task")
+        print("4. Update task status")
+        print("5. Delete task")
+        print("6. Clear database")
+        print("7. Exit")
+
+        line(50)
 
         choice = input("Enter your choice: ")
+
+        line(50)
 
         if choice == '1':
             tasks = get_tasks()
             print("Tasks:")
             for task in tasks:
                 print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
+
         elif choice == '2':
             task = input("Enter the task: ")
             add_task(task)
+
         elif choice == '3':
-            update_task_status()
+            update_task_header()
+
         elif choice == '4':
+            update_task_status()
+
+        elif choice == '5':
             id = int(input("Enter the ID of the task you want to delete: "))
             delete_task(id)
-        elif choice == '5':
-            clear_database()
+
         elif choice == '6':
+            clear_database()
+
+        elif choice == '7':
             break
+
         else:
             print("Invalid choice. Please try again.")
 
