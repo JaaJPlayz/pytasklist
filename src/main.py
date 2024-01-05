@@ -16,6 +16,10 @@ def create_database():
 
 
 def add_task(task):
+    if not task:
+        print("No task provided.")
+        return
+
     cursor.execute("INSERT INTO tasks(task, status) VALUES(?, ?)",
                    (task, 'pending'))
     conn.commit()
@@ -29,6 +33,10 @@ def get_tasks():
 
 def update_task_header():
     tasks = cursor.fetchall()
+
+    if not tasks:
+        print("No tasks found.")
+        return
 
     for task in tasks:
         print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
@@ -49,6 +57,10 @@ def update_task_header():
 
 def update_task_status():
     tasks = cursor.fetchall()
+
+    if not tasks:
+        print("No tasks found.")
+        return
 
     for task in tasks:
         print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
@@ -78,6 +90,10 @@ def update_task_status():
 
 
 def delete_task(id):
+    if not id:
+        print("No tasks found.")
+        return
+
     cursor.execute("DELETE FROM tasks WHERE id = ?", (id,))
     conn.commit()
 
@@ -106,32 +122,34 @@ def main_menu():
         line(50)
 
         if choice == '1':
+            subprocess.call(['clear'], shell=True)
+            line(50)
             tasks = get_tasks()
             print("Tasks:")
             for task in tasks:
                 print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
 
         elif choice == '2':
+            subprocess.call(['clear'], shell=True)
             task = input("Enter the task: ")
             add_task(task)
-            subprocess.call(['clear'], shell=True)
 
         elif choice == '3':
-            update_task_header()
             subprocess.call(['clear'], shell=True)
+            update_task_header()
 
         elif choice == '4':
-            update_task_status()
             subprocess.call(['clear'], shell=True)
+            update_task_status()
 
         elif choice == '5':
+            subprocess.call(['clear'], shell=True)
             id = int(input("Enter the ID of the task you want to delete: "))
             delete_task(id)
-            subprocess.call(['clear'], shell=True)
 
         elif choice == '6':
-            clear_database()
             subprocess.call(['clear'], shell=True)
+            clear_database()
 
         elif choice == '7':
             break
