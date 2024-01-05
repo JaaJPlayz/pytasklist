@@ -6,7 +6,8 @@ cursor = conn.cursor()
 
 def create_database():
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT, status TEXT)")
+        """CREATE TABLE IF NOT EXISTS tasks
+        (id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT, status TEXT)""")
 
 
 def add_task(task):
