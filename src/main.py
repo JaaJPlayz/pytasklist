@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('database.db')
+conn = sqlite3.connect('./src/data/database.sqlite3')
 cursor = conn.cursor()
 
 
@@ -45,6 +45,31 @@ def delete_task(id):
 def clear_database():
     cursor.execute("DELETE FROM tasks")
     conn.commit()
+
+
+def main_menu():
+    while True:
+        print("1. Add task")
+        print("2. Update task status")
+        print("3. Delete task")
+        print("4. Clear database")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            task = input("Enter task: ")
+            add_task(task)
+        elif choice == '2':
+            update_task_status()
+        elif choice == '3':
+            task_id = int(input("Enter task ID: "))
+            delete_task(task_id)
+        elif choice == '4':
+            clear_database()
+        elif choice == '5':
+            print("Exiting...")
+            break
 
 
 create_database()
