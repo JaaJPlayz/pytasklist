@@ -1,4 +1,5 @@
 import sqlite3
+import subprocess
 
 conn = sqlite3.connect('./src/data/database.sqlite3')
 cursor = conn.cursor()
@@ -113,19 +114,24 @@ def main_menu():
         elif choice == '2':
             task = input("Enter the task: ")
             add_task(task)
+            subprocess.call(['clear'], shell=True)
 
         elif choice == '3':
             update_task_header()
+            subprocess.call(['clear'], shell=True)
 
         elif choice == '4':
             update_task_status()
+            subprocess.call(['clear'], shell=True)
 
         elif choice == '5':
             id = int(input("Enter the ID of the task you want to delete: "))
             delete_task(id)
+            subprocess.call(['clear'], shell=True)
 
         elif choice == '6':
             clear_database()
+            subprocess.call(['clear'], shell=True)
 
         elif choice == '7':
             break
