@@ -29,10 +29,20 @@ def update_task_status():
 
     update_task_id = int(
         input("Enter the ID of the task you want to update: "))
-    update_status = input("Enter the new status: ")
 
-    cursor.execute("UPDATE tasks SET status = ? WHERE id = ?",
-                   (update_status, update_task_id))
+    status_options = ['resigned', 'pending', 'in progress', 'completed']
+
+    for i, option in enumerate(status_options):
+        print(f"{i+1}. {option}")
+
+    status_index = int(input("Enter the index of the status: ")) - 1
+
+    update_status = status_options[status_index]
+
+    cursor.execute(
+        "UPDATE tasks SET status = ? WHERE id = ?", (
+            update_status, update_task_id)
+    )
 
     conn.commit()
 
