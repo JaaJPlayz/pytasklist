@@ -49,27 +49,37 @@ def clear_database():
 
 def main_menu():
     while True:
-        print("1. Add task")
-        print("2. Update task status")
-        print("3. Delete task")
-        print("4. Clear database")
-        print("5. Exit")
+        print("Main menu:")
+        print("1. View tasks")
+        print("2. Add task")
+        print("3. Update task status")
+        print("4. Delete task")
+        print("5. Clear database")
+        print("6. Exit")
 
         choice = input("Enter your choice: ")
 
         if choice == '1':
-            task = input("Enter task: ")
-            add_task(task)
+            tasks = get_tasks()
+            print("Tasks:")
+            for task in tasks:
+                print(f"ID: {task[0]}, Task: {task[1]}, Status: {task[2]}")
         elif choice == '2':
-            update_task_status()
+            task = input("Enter the task: ")
+            add_task(task)
         elif choice == '3':
-            task_id = int(input("Enter task ID: "))
-            delete_task(task_id)
+            update_task_status()
         elif choice == '4':
-            clear_database()
+            id = int(input("Enter the ID of the task you want to delete: "))
+            delete_task(id)
         elif choice == '5':
-            print("Exiting...")
+            clear_database()
+        elif choice == '6':
             break
+        else:
+            print("Invalid choice. Please try again.")
 
 
-create_database()
+if __name__ == '__main__':
+    create_database()
+    main_menu()
